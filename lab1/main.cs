@@ -10,7 +10,7 @@ class Program
             Arr_chain_list chain = new Arr_chain_list();
 
             Random rnd = new Random();
-            for (int i = 0; i < 5000; i++)
+            for (int i = 0; i < 500; i++)
             {
                 int operation = rnd.Next(5);
                 int item = rnd.Next(100);
