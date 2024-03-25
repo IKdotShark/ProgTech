@@ -29,8 +29,9 @@ namespace lab2{
 
         public virtual void Sort()
         {
-            // Реализация сортировки по умолчанию
+            
         }
+        
 
         public abstract bool IsEqual(Base_list other);
     }
