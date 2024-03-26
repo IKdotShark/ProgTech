@@ -1,30 +1,31 @@
-namespace lab2{
+namespace lab2
+{
     public class Arr_chain_list : Base_list
     {
-        private Node head;
+        private Node head = null;
 
-        public override int Count => count;
-
-        private class Node
+        public class Node
         {
             public int Data { get; set; }
             public Node Next { get; set; }
-            public Node(int data)
+            public Node(int data, Node next)
             {
                 Data = data;
-                Next = null;
+                Next = next;
             }
         }
 
+        /*
         public Arr_chain_list()
         {
             head = null;
             count = 0;
         }
+        */
 
         private Node NodeFinder(int pos)
         {
-            if (pos >= count) return null;
+            if (pos >= count) {return null;}
             int i = 0;
             Node Checker = head;
             while (Checker != null && i < pos)
@@ -32,25 +33,27 @@ namespace lab2{
                 Checker = Checker.Next;
                 i++;
             }
-            if (i == pos) return Checker;
-            else return null;
+            if (i == pos) {return Checker;}
+            else {return null;}
         }
 
-        public override void Add(int item)
+        //public override void Add(int item)
+        public override void Add(int data)
         {
             if (head == null)
             {
-                head = new Node(item);
+                head = new Node(data, null);
             }
             else
             {
                 Node lastNode = NodeFinder(count - 1);
-                lastNode.Next = new Node(item);
+                lastNode.Next = new Node(data, null);
             }
             count++;
         }
 
-        public override void Insert(int pos, int item)
+        //public override void Insert(int pos, int item)
+        public override void Insert(int pos, int data)
         {
             if (pos < 0 || pos > count)
             {
@@ -59,16 +62,23 @@ namespace lab2{
 
             if (pos == 0)
             {
+                /*
                 Node newNode = new Node(item);
                 newNode.Next = head;
                 head = newNode;
+                */
+                head = new Node(data, head);
             }
             else
             {
+                /*
                 Node prevNode = NodeFinder(pos - 1);
                 Node newNode = new Node(item);
                 newNode.Next = prevNode.Next;
                 prevNode.Next = newNode;
+                */
+                Node prevNode = NodeFinder(pos - 1);
+                prevNode.Next = new Node(data, prevNode.Next);
             }
             count++;
         }
@@ -102,108 +112,74 @@ namespace lab2{
         {
             get
             {
-                if (index < 0 || index >= count)
+                //if (index < 0 || index >= count)
+                Node current = NodeFinder(index);
+                if (current == null)
                 {
                     return 0;
                 }
-
-                Node current = NodeFinder(index);
                 return current.Data;
             }
             set
             {
-                if (index < 0 || index >= count)
+                Node current = NodeFinder(index);
+                //if (index < 0 || index >= count)
+                if (current == null)
                 {
                     return;
                 }
-
-                Node current = NodeFinder(index);
                 current.Data = value;
             }
         }
 
-        public override void Print()
-        {
-            Node current = head;
-            while (current != null)
-            {
-                Console.Write(current.Data + " ");
-                current = current.Next;
-            }
-            Console.WriteLine();
-        }
-
-        public override void Assign(Base_list source)
-        {
-            Arr_chain_list arrSource = source as Arr_chain_list;
-            if (arrSource != null)
-            {
-                head = null;
-                count = 0;
-                Node current = arrSource.head;
-                while (current != null)
-                {
-                    Add(current.Data);
-                    current = current.Next;
-                }
-            }
-        }
-
-        public override void AssignTo(Base_list dest)
-        {
-            Arr_chain_list arrDest = dest as Arr_chain_list;
-            if (arrDest != null)
-            {
-                arrDest.head = null;
-                arrDest.count = 0;
-                Node current = head;
-                while (current != null)
-                {
-                    arrDest.Add(current.Data);
-                    current = current.Next;
-                }
-            }
-        }
-
-        public override Base_list Clone()
-        {
-            Arr_chain_list cloneList = new Arr_chain_list();
-            Node current = head;
-            while (current != null)
-            {
-                cloneList.Add(current.Data);
-                current = current.Next;
-            }
-            return cloneList;
-        }
-
-        public override Base_list EmptyClone()
+        protected override Base_list EmptyClone()
         {
             return new Arr_chain_list();
         }
 
-        public override bool IsEqual(Base_list other)
+        public override void Sort()
         {
-            Arr_chain_list arrOther = other as Arr_chain_list;
-            if (arrOther == null || arrOther.count != count)
+            if (count <= 1)
             {
-                return false;
+                return;
             }
 
-            Node current1 = head;
-            Node current2 = arrOther.head;
+            int temp;
 
-            while (current1 != null && current2 != null)
+            for (int i = 0; i < count; i++)
             {
-                if (current1.Data != current2.Data)
+                Node current = head;
+            //warning
+                while (current != null & current.Next != null)
                 {
-                    return false;
+                    if (current.Data > current.Next.Data)
+                    {
+                        temp = current.Data;
+                        current.Data = current.Next.Data;
+                        current.Next.Data = temp;
+                    }
+                    current = current.Next;
+                }            
+            /*
+            Node current = head;
+            while (current != null)
+            {
+                Node min = current;
+                Node r = current.Next;
+                while (r != null)
+                {
+                    if (min.Data > r.Data)
+                    {
+                        min = r;
+                    }
+                    r = r.Next;
                 }
-                current1 = current1.Next;
-                current2 = current2.Next;
+                int temp = current.Data;
+                current.Data = min.Data;
+                min.Data = temp;
+                current = current.Next;
+            }*/
             }
-
-            return true;
         }
     }
 }
