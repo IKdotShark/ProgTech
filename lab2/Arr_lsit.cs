@@ -2,30 +2,41 @@ namespace lab2
 {
    public class Arr_list : Base_list
     {
-        public override int Count => count;
+        // public override int Count => count;
+        
+        private int[] buffer;
 
         public Arr_list()
         {
-            fuller = 2;
-            buffer = new int[fuller];
+            buffer = new int[0];
             count = 0;
         }
 
+        // need testing
         private void Expand()
         {
-            fuller *= 2;
-            int[] newBuffer = new int[fuller];
-            Array.Copy(buffer, newBuffer, count);
-            buffer = newBuffer;
+            if (count == buffer.Length)
+            {
+                int[] newBuffer;
+                if (buffer.Length == 0)
+                {
+                    newBuffer = new int[2];
+                }
+                else
+                {
+                    newBuffer = new int[buffer.Length * 2];
+                }
+                for (int i = 0; i < buffer.Length; i++)
+                {
+                    newBuffer[i] = buffer[i];
+                }
+                buffer = newBuffer;
+            }
         }
 
         public override void Add(int item)
         {
-            if (count == fuller)
-            {
-                Expand();
-            }
-
+            Expand();
             buffer[count] = item;
             count++;
         }
@@ -37,10 +48,7 @@ namespace lab2
                 return;
             }
 
-            if (count == fuller)
-            {
-                Expand();
-            }
+            Expand();
 
             for (int i = count; i > pos; i--)
             {
@@ -66,9 +74,10 @@ namespace lab2
             count--;
         }
 
+        // WARNING: need testing
         public override void Clear()
         {
-            buffer = new int[fuller];
+            buffer = new int[0];
             count = 0;
         }
 
@@ -92,65 +101,9 @@ namespace lab2
             }
         }
 
-        public override void Print()
-        {
-            for (int i = 0; i < count; i++)
-            {
-                Console.Write(buffer[i] + " ");
-            }
-            Console.WriteLine();
-        }
-
-        public override void Assign(Base_list source)
-        {
-            Arr_list arrSource = source as Arr_list;
-            if (arrSource != null)
-            {
-                Array.Copy(arrSource.buffer, buffer, arrSource.count);
-                count = arrSource.count;
-            }
-        }
-
-        public override void AssignTo(Base_list dest)
-        {
-            Arr_list arrDest = dest as Arr_list;
-            if (arrDest != null)
-            {
-                Array.Copy(buffer, arrDest.buffer, count);
-                arrDest.count = count;
-            }
-        }
-
-        public override Base_list Clone()
-        {
-            Arr_list cloneList = new Arr_list();
-            Array.Copy(buffer, cloneList.buffer, count);
-            cloneList.count = count;
-            return cloneList;
-        }
-
-        public override Base_list EmptyClone()
+        protected override Base_list EmptyClone()
         {
             return new Arr_list();
-        }
-
-        public override bool IsEqual(Base_list other)
-        {
-            Arr_list arrOther = other as Arr_list;
-            if (arrOther == null || arrOther.count != count)
-            {
-                return false;
-            }
-
-            for (int i = 0; i < count; i++)
-            {
-                if (buffer[i] != arrOther.buffer[i])
-                {
-                    return false;
-                }
-            }
-
-            return true;
         }
     }
 }
