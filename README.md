@@ -24,7 +24,7 @@ sudo apt-get update && \
 `dotnet --version`
 Если после этого выдает версию .NET, то установка прошла успешно в ином случае обращайтесь к источнику и FAQ на сайте [.NET SDK v 8.0](https://dotnet.microsoft.com/en-us/download/dotnet/8.0).
 
-Перейдем к тому, как выполнять программу. В случае если файл сборки правильный для особенностей вашей системы и версии, то достаточно использовать в консоли команду: `dotnet run <name_of_file>`, в нашем случае `<name_of_file>` - `main.cs`.
+Перейдем к тому, как выполнять программу. В случае если файл сборки правильный для особенностей вашей системы и версии, то достаточно использовать в консоли команду: `dotnet run <name_of_file>`, в нашем случае `<name_of_file>` - `main.cs` или `Program.cs`.
 
 ## Интерпретация заданий лабораторных работ
 - [x] [lab1](https://github.com/IKdotShark/ProgTech/wiki/lab1) Реализовать с помощью отдельных классов динамический целочисленный список, односвязный динамический целочисленный список и действия с ним (добавить элемент, вставка элемента по позиции, this, удалить элемент по позиции, очистка списка и его вывод).
@@ -58,7 +58,7 @@ Check installation:
 `dotnet --version`
 If after this it displays the .NET version, then the installation was successful, otherwise refer to the source and FAQ on the website [.NET SDK v 8.0](https://dotnet.microsoft.com/en-us/download/dotnet/8.0) .
 
-Let's move on to how to execute the program. If the assembly file is correct for the features of your system and version, then it is enough to use the command in the console: `dotnet run <name_of_file>`, in our case `<name_of_file>` - `main.cs`.
+Let's move on to how to execute the program. If the assembly file is correct for the features of your system and version, then it is enough to use the command in the console: `dotnet run <name_of_file>`, in our case `<name_of_file>` - `main.cs` or `Program.cs`.
 ## Interpretation of laboratory tasks
 - [x] [lab1](https://github.com/IKdotShark/ProgTech/wiki/lab1) Implement using separate classes a dynamic integer list, a singly linked dynamic integer list and actions with it (add an element, insert an element by position, this, remove element by position, clear the list and output it).
 - [ ] [lab2](https://github.com/IKdotShark/ProgTech/wiki/lab2) Add an abstract parent class BaseList with extended list management capabilities, details are described in the wiki.
