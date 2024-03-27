@@ -35,9 +35,9 @@ sudo apt-get update && \
 
 # ENG description
 Laboratory work on programming technologies.
-The work was performed in C#. To do the work, use [.NET SDK v 8.0](https://dotnet.microsoft.com/en-us/download/dotnet/8.0), VS Code with additional extensions [.NET Install Tool](https://marketplace .visualstudio.com/items?itemName=ms-dotnettools.csharp) and [C#](https://marketplace.visualstudio.com/items?itemName=ms-dotnettools.csharp).
+The work was performed in C#. To do the work, use [.NET SDK v 8.0](https://dotnet.microsoft.com/en-us/download/dotnet/8.0), VS Code with additional extensions [.NET Install Tool](https://marketplace.visualstudio.com/items?itemName=ms-dotnettools.csharp) and [C#](https://marketplace.visualstudio.com/items?itemName=ms-dotnettools.csharp).
 ## Using programs
-Before using the program, we need to install [.NET SDK v 8.0](https://dotnet.microsoft.com/en-us/download/dotnet/8.0) and [ASP.NET Core](https://learn.microsoft .com/ru-ru/aspnet/core/introduction-to-aspnet-core?view=aspnetcore-8.0). I'll tell you how to do this on Linux in my case Ubuntu 20.04.6 LTS.
+Before using the program, we need to install [.NET SDK v 8.0](https://dotnet.microsoft.com/en-us/download/dotnet/8.0) and [ASP.NET Core](https://learn.microsoft.com/ru-ru/aspnet/core/introduction-to-aspnet-core?view=aspnetcore-8.0). I'll tell you how to do this on Linux in my case Ubuntu 20.04.6 LTS.
 Adding a Microsoft Package Repository:
 ```
 wget https://packages.microsoft.com/config/ubuntu/20.04/packages-microsoft-prod.deb -O packages-microsoft-prod.deb
