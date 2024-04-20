@@ -1,17 +1,37 @@
-using System;
 using System.Collections;
-using System.Collections.Generic;
 
 namespace lab3{
     public abstract class Base_list<T> : IEnumerable<T> where T: IComparable<T>
-    {    
+    {  
+        public delegate void ListChangedEventHandler(object sender, ActionEventArgs e);
         protected int count;
-
+        public event ListChangedEventHandler ItemAdded;
+        public event ListChangedEventHandler ItemInserted;
+        public event ListChangedEventHandler ItemDeleted;
+        public event ListChangedEventHandler ListCleared;
         public int Count 
         {
             get { return count; }
         }
-        
+        protected virtual void OnItemAdded(T item)
+        {
+            ItemAdded?.Invoke(this, new ActionEventArgs("Item Added"));
+        }
+
+        protected virtual void OnItemInserted(int pos, T item)
+        {
+            ItemInserted?.Invoke(this, new ActionEventArgs("Item Inserted at position " + pos));
+        }
+
+        protected virtual void OnItemDeleted(int pos)
+        {
+            ItemDeleted?.Invoke(this, new ActionEventArgs("Item Deleted from position " + pos));
+        }
+
+        protected virtual void OnListCleared()
+        {
+            ListCleared?.Invoke(this, new ActionEventArgs("List Cleared"));
+        }
 
         public abstract void Add(T item);
 
@@ -25,13 +45,18 @@ namespace lab3{
 
         public void Print()
         {
-            for (int i = 0; i < count; i++)
+            foreach (var item in this)
+            {
+                Console.Write(item + " ");
+            }
+            Console.WriteLine();
+            /*for (int i = 0; i < count; i++)
             //foreach (var item in this)
             {
                 //Console.Write(item + " ");
                 Console.Write(this[i] + " ");
             }
-            Console.WriteLine();
+            Console.WriteLine();*/
         }
 
         public void Assign(Base_list<T> source)
@@ -62,9 +87,9 @@ namespace lab3{
             {
                 for (int j = i + 1; j < count; j++)
                 {
-                    if (this[i] > this[j])
+                    if (this[i].CompareTo(this[j]) > 0)
                     {
-                        int temp = this[i];
+                        T temp = this[i];
                         this[i] = this[j];
                         this[j] = temp;
                     }
@@ -81,54 +106,52 @@ namespace lab3{
 
             for (int i = 0; i < this.Count; i++)
             {
-                if (this[i] != AnotherOne[i])
+                if (this[i].CompareTo(AnotherOne[i]) != 0)
                     return false;
             }
             return true;
         }
 
-        public SaveToFile(string fileName)
+        public void SaveToFile(string fileName)
         {
             try
             {
                 using (StreamWriter writer = new StreamWriter(fileName))
                 {
-                    foreach (T item in this)
-                    {
-                        writer.WriteLine(item);
-                    }
-                    /*
                     for (int i = 0; i < count; i++)
                     {
                         writer.WriteLine(this[i].ToString());
                     }
-                    */
                 }
             }
-            catch (IOException)
+            catch (BadFileException)
             {
-                ExceptionCounter.ChainExceptionCounterIncrement();
+                ExceptionCounter.ArrayExceptionCounterIncrement();
                 return;    
             }
         }
 
-        public LoadFromFile(string fileName)
+        public void LoadFromFile(string fileName)
         {
             try
             {
+                Clear();
                 using (StreamReader reader = new StreamReader(fileName))
                 {
                     string line;
                     while ((line = reader.ReadLine()) != null)
                     {
-                        T item = (T)Convert.ChangeType(line, typeof(T));
-                        Add(item);
+                        if (line.Trim() == "")
+                        {
+                            T item = (T)Convert.ChangeType(line, typeof(T));
+                            Add(item);
+                        }
                     }
                 }
             }
-            catch (IOException)
+            catch (BadFileException)
             {
-                ExceptionCounter.ChainExceptionCounterIncrement();
+                ExceptionCounter.ArrayExceptionCounterIncrement();
                 return;
             }
         }
@@ -140,44 +163,33 @@ namespace lab3{
 
         public static bool operator !=(Base_list<T> list1, Base_list<T> list2)
         {
-            return !list1.IsEqual(list2);
+            return!list1.IsEqual(list2);
         }
-        public static bool operator +(Base_list<T> list1, Base_list<T> list2)
+        public static Base_list<T> operator +(Base_list<T> list1, Base_list<T> list2)
         {
-            Base_list<T> list3 = new Base_list<T>();
+            /*Base_list<T> list3 = new Base_list<T>();
             list3.Assign(list1);
             list3.Assign(list2);
-            return list3;
-            /*
+            return list3;*/
+            
             Base_list<T> list3 = list1.Clone();
             for (int i = 0; i < list2.Count; i++)
             {
                 list3.Add(list2[i]);
             }
             return list3;
-            */
-
-        }
-        public class BadIndexException : Exception
-        {
-            public BadIndexException(string message) : base(message) { }
-            //public BadIndexException() : base("exception") { }
-        }
-        public class BadFileException : Exception
-        {
-            public BadFileException(string message) : base(message) { }
-            //public BadFileException() : base("exception") { }
         }
         public class ExceptionCounter
         {
             protected static int ChainExceptionCount = 0;
             protected static int ArrayExceptionCount = 0;
-            
-            public static void ChainExceptionCounter()
+           // public static int ChainExceptionCounter => ChainExceptionCount;
+           // public static int ArrayExceptionCounter => ArrayExceptionCount;
+            public static int ChainExceptionCounter
             {
                 get { return ChainExceptionCount; }
             }
-            public static void ArrayExceptionCounter()
+            public static int ArrayExceptionCounter
             {
                 get { return ArrayExceptionCount; }
             }
@@ -189,93 +201,30 @@ namespace lab3{
             {
                 ChainExceptionCount++;
             }
-            public static void ExceptionCounterReset()
+            /*public static void ExceptionCounterReset()
             {
                 ChainExceptionCount = 0;
                 ArrayExceptionCount = 0;
-            }
+            }*/
         }
 
         public IEnumerator<T> GetEnumerator()
         {
-            return new BaseListEnumerator<T>(this);   
+            //return new Base_listEnumerator<T>(this);   
+            return new Base_listEnumerator(this);
         }
-        // write IEnumerator<T> GetEnumerator() without yeild
-        IEnumerator IEnumerable.GetEnumerator()
+        
+         IEnumerator IEnumerable.GetEnumerator()
         {
             return GetEnumerator();
         }
-        public class ActionEventArgs : EventArgs
+
+         private class Base_listEnumerator : IEnumerator<T>
         {
-            public string Action { get; set; } //
-            
-            public ActionEventArgs(string action)
-            {
-                Action = action;
-            }   
-        }
-
-        private class BaseListEnumerator<T> : IEnumerator<T>
-        {
-            private Base_list<T> _list;
-            private int _index;
-            private T _current;
-
-            public BaseListEnumerator(Base_list<T> list)
-            {
-                _list = list;
-                _index = -1;
-                _current = default(T);
-            }
-
-            public T Current
-            {
-                get
-                {
-                    if (_index == -1 || _index == _list.Count)
-                    {
-                        throw new InvalidOperationException();
-                    }
-                    return _current;
-                }
-            }
-
-            object IEnumerator.Current
-            {
-                get { return Current; }
-            }
-
-            public void Dispose()
-            {
-                _list = null;
-                _current = default(T);
-            }
-
-            public bool MoveNext()
-            {
-                if (_index < _list.Count - 1)
-                {
-                    _index++;
-                    _current = _list[_index];
-                    return true;
-                }
-                return false;
-            }
-
-            public void Reset()
-            {
-                _index = -1;
-                _current = default(T);
-            }
-        }
-
-        /*
-        private class BaseListEnumerator : IEnumerator<T>
-        {
-            private Base_List<T> list;
+            private Base_list<T> list;
             private int currentIndex = -1;
 
-            public BaseListEnumerator(Base_List<T> list)
+            public Base_listEnumerator(Base_list<T> list)
             {
                 this.list = list;
             }
@@ -297,10 +246,31 @@ namespace lab3{
 
             public void Dispose()
             {
-                // Метод Dispose не требуется в этом примере, но интерфейс IDisposable реализуется для соответствия
+            }
+        }
+        }
+    }
+        public class BadIndexException : Exception
+        {
+            public BadIndexException() : base("exception")
+            {
+            }
+        }       
+
+        public class BadFileException : Exception
+        {
+            public BadFileException() : base("exception")
+            {
             }
         }
 
-        */
-    }
-}
+        public class ActionEventArgs : EventArgs
+        {
+            public string Action { get; private set; }
+
+            public ActionEventArgs(string action)
+            {   
+                Action = action;
+            }
+        }        
+
