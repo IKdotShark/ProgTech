@@ -28,9 +28,10 @@ sudo apt-get update && \
 
 ## Интерпретация заданий лабораторных работ
 - [x] [lab1](https://github.com/IKdotShark/ProgTech/wiki/lab1) Реализовать с помощью отдельных классов динамический целочисленный список, односвязный динамический целочисленный список и действия с ним (добавить элемент, вставка элемента по позиции, this, удалить элемент по позиции, очистка списка и его вывод).
-- [ ] [lab2](https://github.com/IKdotShark/ProgTech/wiki/lab2) Добавить абстрактный родительский класс BaseList с расширением возможностей управления list'ами, подробности описаны в wiki.
-- [ ] [lab3](https://github.com/IKdotShark/ProgTech/wiki/lab3) 
-
+- [x] [lab2](https://github.com/IKdotShark/ProgTech/wiki/lab2) Добавить абстрактный родительский класс BaseList с расширением возможностей управления list'ами, подробности описаны в wiki.
+- [x] [lab3](https://github.com/IKdotShark/ProgTech/wiki/lab3) Параметрезированные классы, работа с файлами, исключения, делигаты.
+- [ ] [lab4](https://github.com/IKdotShark/ProgTech/wiki/lab4) Транспилировать lab2 на C++.
+      
 --- 
 
 # ENG description
@@ -61,5 +62,6 @@ If after this it displays the .NET version, then the installation was successful
 Let's move on to how to execute the program. If the assembly file is correct for the features of your system and version, then it is enough to use the command in the console: `dotnet run <name_of_file>`, in our case `<name_of_file>` - `main.cs` or `Program.cs`.
 ## Interpretation of laboratory tasks
 - [x] [lab1](https://github.com/IKdotShark/ProgTech/wiki/lab1) Implement using separate classes a dynamic integer list, a singly linked dynamic integer list and actions with it (add an element, insert an element by position, this, remove element by position, clear the list and output it).
-- [ ] [lab2](https://github.com/IKdotShark/ProgTech/wiki/lab2) Add an abstract parent class BaseList with extended list management capabilities, details are described in the wiki.
-- [ ] [lab3](https://github.com/IKdotShark/ProgTech/wiki/lab3)  
+- [x] [lab2](https://github.com/IKdotShark/ProgTech/wiki/lab2) Add an abstract parent class BaseList with extended list management capabilities, details are described in the wiki.
+- [x] [lab3](https://github.com/IKdotShark/ProgTech/wiki/lab3) Parameterized classes, working with files, exceptions, delegates.
+- [ ] [lab4](https://github.com/IKdotShark/ProgTech/wiki/lab4) Transpilate lab2 into C++.
