@@ -39,7 +39,7 @@ namespace lab3
             Expand();
             buffer[count] = item;
             count++;
-            OnItemAdded(item);
+            OnItemChanged();
         }
 
         public override void Insert(int pos, T item)
@@ -58,7 +58,7 @@ namespace lab3
 
                 buffer[pos] = item;
                 count++;
-                OnItemInserted(pos, item);
+                OnItemChanged();
         }
 
         public override void Delete(int pos)
@@ -73,7 +73,7 @@ namespace lab3
                     buffer[i] = buffer[i + 1];
                 }
                 count--;
-                OnItemDeleted(pos);            
+                OnItemChanged();            
         }
 
         public override void Clear()
@@ -81,7 +81,7 @@ namespace lab3
             //Buffer.Clear(ref buffer, 0);
             buffer = new T[0];
             count = 0;
-            OnListCleared();
+            OnItemChanged();
         }
 
         public override T this[int index]

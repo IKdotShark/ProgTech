@@ -5,34 +5,16 @@ namespace lab3{
     {  
         public delegate void ListChangedEventHandler(object sender, ActionEventArgs e);
         protected int count;
-        public event ListChangedEventHandler ItemAdded;
-        public event ListChangedEventHandler ItemInserted;
-        public event ListChangedEventHandler ItemDeleted;
-        public event ListChangedEventHandler ListCleared;
+        public event ListChangedEventHandler ItemChanged;
+
         public int Count 
         {
             get { return count; }
         }
-        protected virtual void OnItemAdded(T item)
+        protected virtual void OnItemChanged()
         {
-            ItemAdded?.Invoke(this, new ActionEventArgs("Item Added"));
-        }
-
-        protected virtual void OnItemInserted(int pos, T item)
-        {
-            ItemInserted?.Invoke(this, new ActionEventArgs("Item Inserted at position " + pos));
-        }
-
-        protected virtual void OnItemDeleted(int pos)
-        {
-            ItemDeleted?.Invoke(this, new ActionEventArgs("Item Deleted from position " + pos));
-        }
-
-        protected virtual void OnListCleared()
-        {
-            ListCleared?.Invoke(this, new ActionEventArgs("List Cleared"));
-        }
-
+            ItemChanged?.Invoke(this, new ActionEventArgs("Item Changed"));
+        }        
         public abstract void Add(T item);
 
         public abstract void Insert(int pos, T item);
@@ -50,13 +32,6 @@ namespace lab3{
                 Console.Write(item + " ");
             }
             Console.WriteLine();
-            /*for (int i = 0; i < count; i++)
-            //foreach (var item in this)
-            {
-                //Console.Write(item + " ");
-                Console.Write(this[i] + " ");
-            }
-            Console.WriteLine();*/
         }
 
         public void Assign(Base_list<T> source)
@@ -114,8 +89,6 @@ namespace lab3{
 
         public void SaveToFile(string fileName)
         {
-            try
-            {
                 using (StreamWriter writer = new StreamWriter(fileName))
                 {
                     for (int i = 0; i < count; i++)
@@ -123,18 +96,10 @@ namespace lab3{
                         writer.WriteLine(this[i].ToString());
                     }
                 }
-            }
-            catch (BadFileException)
-            {
-                ExceptionCounter.ArrayExceptionCounterIncrement();
-                return;    
-            }
         }
 
         public void LoadFromFile(string fileName)
         {
-            try
-            {
                 Clear();
                 using (StreamReader reader = new StreamReader(fileName))
                 {
@@ -148,12 +113,6 @@ namespace lab3{
                         }
                     }
                 }
-            }
-            catch (BadFileException)
-            {
-                ExceptionCounter.ArrayExceptionCounterIncrement();
-                return;
-            }
         }
 
         public static bool operator ==(Base_list<T> list1, Base_list<T> list2)
@@ -163,15 +122,11 @@ namespace lab3{
 
         public static bool operator !=(Base_list<T> list1, Base_list<T> list2)
         {
-            return!list1.IsEqual(list2);
+            return !list1.IsEqual(list2);
         }
+        
         public static Base_list<T> operator +(Base_list<T> list1, Base_list<T> list2)
         {
-            /*Base_list<T> list3 = new Base_list<T>();
-            list3.Assign(list1);
-            list3.Assign(list2);
-            return list3;*/
-            
             Base_list<T> list3 = list1.Clone();
             for (int i = 0; i < list2.Count; i++)
             {
@@ -179,12 +134,13 @@ namespace lab3{
             }
             return list3;
         }
+
+        /*
         public class ExceptionCounter
         {
             protected static int ChainExceptionCount = 0;
             protected static int ArrayExceptionCount = 0;
-           // public static int ChainExceptionCounter => ChainExceptionCount;
-           // public static int ArrayExceptionCounter => ArrayExceptionCount;
+           
             public static int ChainExceptionCounter
             {
                 get { return ChainExceptionCount; }
@@ -201,16 +157,19 @@ namespace lab3{
             {
                 ChainExceptionCount++;
             }
-            /*public static void ExceptionCounterReset()
-            {
-                ChainExceptionCount = 0;
-                ArrayExceptionCount = 0;
-            }*/
+        }*/
+
+        public void AddArrayListEventHandler()
+        {
+            ItemChanged += (sender, e) => Console.WriteLine("Array list changed");
+        }
+        public void AddChainListEventHandler()
+        {
+            ItemChanged += (sender, e) => Console.WriteLine("Chain list changed");
         }
 
         public IEnumerator<T> GetEnumerator()
         {
-            //return new Base_listEnumerator<T>(this);   
             return new Base_listEnumerator(this);
         }
         
@@ -249,8 +208,8 @@ namespace lab3{
             }
         }
         }
-    }
-        public class BadIndexException : Exception
+
+public class BadIndexException : Exception
         {
             public BadIndexException() : base("exception")
             {
@@ -273,4 +232,8 @@ namespace lab3{
                 Action = action;
             }
         }        
+
+
+    }
+        
 
