@@ -1,0 +1,5 @@
+/home/alex/ProgTech/lab5/MyWinFormsApp/obj/Debug/net8.0/MyWinFormsApp.csproj.AssemblyReference.cache
+/home/alex/ProgTech/lab5/MyWinFormsApp/obj/Debug/net8.0/MyWinFormsApp.GeneratedMSBuildEditorConfig.editorconfig
+/home/alex/ProgTech/lab5/MyWinFormsApp/obj/Debug/net8.0/MyWinFormsApp.AssemblyInfoInputs.cache
+/home/alex/ProgTech/lab5/MyWinFormsApp/obj/Debug/net8.0/MyWinFormsApp.AssemblyInfo.cs
+/home/alex/ProgTech/lab5/MyWinFormsApp/obj/Debug/net8.0/MyWinFormsApp.csproj.CoreCompileInputs.cache

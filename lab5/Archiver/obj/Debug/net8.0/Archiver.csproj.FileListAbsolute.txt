@@ -1,0 +1,14 @@
+/home/alex/ProgTech/lab5/Archiver/bin/Debug/net8.0/Archiver
+/home/alex/ProgTech/lab5/Archiver/bin/Debug/net8.0/Archiver.deps.json
+/home/alex/ProgTech/lab5/Archiver/bin/Debug/net8.0/Archiver.runtimeconfig.json
+/home/alex/ProgTech/lab5/Archiver/bin/Debug/net8.0/Archiver.dll
+/home/alex/ProgTech/lab5/Archiver/bin/Debug/net8.0/Archiver.pdb
+/home/alex/ProgTech/lab5/Archiver/obj/Debug/net8.0/Archiver.GeneratedMSBuildEditorConfig.editorconfig
+/home/alex/ProgTech/lab5/Archiver/obj/Debug/net8.0/Archiver.AssemblyInfoInputs.cache
+/home/alex/ProgTech/lab5/Archiver/obj/Debug/net8.0/Archiver.AssemblyInfo.cs
+/home/alex/ProgTech/lab5/Archiver/obj/Debug/net8.0/Archiver.csproj.CoreCompileInputs.cache
+/home/alex/ProgTech/lab5/Archiver/obj/Debug/net8.0/Archiver.dll
+/home/alex/ProgTech/lab5/Archiver/obj/Debug/net8.0/refint/Archiver.dll
+/home/alex/ProgTech/lab5/Archiver/obj/Debug/net8.0/Archiver.pdb
+/home/alex/ProgTech/lab5/Archiver/obj/Debug/net8.0/Archiver.genruntimeconfig.cache
+/home/alex/ProgTech/lab5/Archiver/obj/Debug/net8.0/ref/Archiver.dll
