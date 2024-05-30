@@ -7,3 +7,4 @@ C:\Users\User\source\repos\MyWinFormsApp\MyWinFormsApp\bin\Debug\MyWinFormsApp.e
 C:\Users\User\source\repos\MyWinFormsApp\MyWinFormsApp\bin\Debug\MyWinFormsApp.pdb
 C:\Users\User\source\repos\MyWinFormsApp\MyWinFormsApp\obj\Debug\MyWinFormsApp.exe
 C:\Users\User\source\repos\MyWinFormsApp\MyWinFormsApp\obj\Debug\MyWinFormsApp.pdb
+C:\Users\User\source\repos\MyWinFormsApp\MyWinFormsApp\obj\Debug\MyWinFormsApp.Form1.resources

@@ -1,9 +1,10 @@
 ﻿using System;
 using System.IO;
-using System.Text;
+using System.IO.Compression;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace MyWinFormsApp
 {
@@ -11,7 +12,6 @@ namespace MyWinFormsApp
     {
         private string inputFilePath;
         private string outputFilePath;
-        private bool stopRequested = false;
         private CancellationTokenSource cancellationTokenSource;
 
         public Form1()
@@ -45,7 +45,6 @@ namespace MyWinFormsApp
         {
             if (!string.IsNullOrEmpty(inputFilePath) && !string.IsNullOrEmpty(outputFilePath))
             {
-                stopRequested = false;
                 cancellationTokenSource = new CancellationTokenSource();
                 try
                 {
@@ -62,7 +61,6 @@ namespace MyWinFormsApp
         {
             if (!string.IsNullOrEmpty(inputFilePath) && !string.IsNullOrEmpty(outputFilePath))
             {
-                stopRequested = false;
                 cancellationTokenSource = new CancellationTokenSource();
                 try
                 {
@@ -77,7 +75,6 @@ namespace MyWinFormsApp
 
         private void btnStop_Click(object sender, EventArgs e)
         {
-            stopRequested = true;
             cancellationTokenSource?.Cancel();
         }
 
@@ -86,51 +83,91 @@ namespace MyWinFormsApp
             Application.Exit();
         }
 
+        private void btnCompare_Click(object sender, EventArgs e)
+        {
+            if (!string.IsNullOrEmpty(inputFilePath) && !string.IsNullOrEmpty(outputFilePath))
+            {
+                bool filesAreEqual = CompareFiles(inputFilePath, outputFilePath);
+                if (filesAreEqual)
+                {
+                    MessageBox.Show("Files are identical.");
+                }
+                else
+                {
+                    MessageBox.Show("Files are not identical.");
+                }
+            }
+            else
+            {
+                MessageBox.Show("Both input and output files must be selected.");
+            }
+        }
+
+        private bool CompareFiles(string filePath1, string filePath2)
+        {
+            try
+            {
+                FileInfo fileInfo1 = new FileInfo(filePath1);
+                FileInfo fileInfo2 = new FileInfo(filePath2);
+
+                // Сравнение по размеру
+                if (fileInfo1.Length != fileInfo2.Length)
+                {
+                    return false;
+                }
+
+                // Сравнение по содержимому
+                using (FileStream fs1 = fileInfo1.OpenRead())
+                using (FileStream fs2 = fileInfo2.OpenRead())
+                {
+                    int file1Byte;
+                    int file2Byte;
+                    do
+                    {
+                        file1Byte = fs1.ReadByte();
+                        file2Byte = fs2.ReadByte();
+                    }
+                    while ((file1Byte == file2Byte) && (file1Byte != -1));
+
+                    return file1Byte == file2Byte;
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error: {ex.Message}");
+                return false;
+            }
+        }
+
         private void CompressFile(string inputFile, string outputFile, CancellationToken cancellationToken)
         {
             try
             {
-                var input = File.ReadAllText(inputFile);
-                var output = new StringBuilder();
-
-                for (int i = 0; i < input.Length;)
+                using (FileStream originalFileStream = new FileStream(inputFile, FileMode.Open, FileAccess.Read))
+                using (FileStream compressedFileStream = new FileStream(outputFile, FileMode.Create, FileAccess.Write))
+                using (GZipStream compressionStream = new GZipStream(compressedFileStream, CompressionMode.Compress))
                 {
-                    if (cancellationToken.IsCancellationRequested)
-                    {
-                        cancellationToken.ThrowIfCancellationRequested();
-                    }
+                    byte[] buffer = new byte[1024];
+                    int bytesRead;
+                    long totalBytesRead = 0;
+                    long totalLength = originalFileStream.Length;
 
-                    int count = 1;
-                    char currentChar = input[i];
-
-                    while (i + count < input.Length && input[i + count] == currentChar)
+                    while ((bytesRead = originalFileStream.Read(buffer, 0, buffer.Length)) > 0)
                     {
-                        count++;
-                    }
-
-                    if (count > 1)
-                    {
-                        output.Append(count).Append(currentChar);
-                        i += count;
-                    }
-                    else
-                    {
-                        int start = i;
-                        while (i < input.Length && (i == start || input[i] != input[i - 1]))
+                        if (cancellationToken.IsCancellationRequested)
                         {
-                            i++;
+                            cancellationToken.ThrowIfCancellationRequested();
                         }
 
-                        output.Append('0').Append(i - start);
-                        output.Append(input.Substring(start, i - start));
+                        compressionStream.Write(buffer, 0, bytesRead);
+                        totalBytesRead += bytesRead;
+
+                        int progress = (int)((double)totalBytesRead / totalLength * 100);
+                        Invoke(new Action(() => progressBar.Value = Math.Min(progress, 100)));
                     }
 
-                    int progress = (int)((double)i / input.Length * 100);
-                    Invoke(new Action(() => progressBar.Value = progress));
+                    Invoke(new Action(() => progressBar.Value = 100));
                 }
-
-                File.WriteAllText(outputFile, output.ToString());
-                Invoke(new Action(() => progressBar.Value = 100));
             }
             catch (Exception ex)
             {
@@ -142,36 +179,31 @@ namespace MyWinFormsApp
         {
             try
             {
-                var input = File.ReadAllText(inputFile);
-                var output = new StringBuilder();
-
-                for (int i = 0; i < input.Length;)
+                using (FileStream compressedFileStream = new FileStream(inputFile, FileMode.Open, FileAccess.Read))
+                using (FileStream decompressedFileStream = new FileStream(outputFile, FileMode.Create, FileAccess.Write))
+                using (GZipStream decompressionStream = new GZipStream(compressedFileStream, CompressionMode.Decompress))
                 {
-                    if (cancellationToken.IsCancellationRequested)
+                    byte[] buffer = new byte[1024];
+                    int bytesRead;
+                    long totalBytesRead = 0;
+                    long totalLength = compressedFileStream.Length;
+
+                    while ((bytesRead = decompressionStream.Read(buffer, 0, buffer.Length)) > 0)
                     {
-                        cancellationToken.ThrowIfCancellationRequested();
+                        if (cancellationToken.IsCancellationRequested)
+                        {
+                            cancellationToken.ThrowIfCancellationRequested();
+                        }
+
+                        decompressedFileStream.Write(buffer, 0, bytesRead);
+                        totalBytesRead += bytesRead;
+
+                        int progress = (int)((double)totalBytesRead / totalLength * 100);
+                        Invoke(new Action(() => progressBar.Value = Math.Min(progress, 100)));
                     }
 
-                    if (char.IsDigit(input[i]) && input[i] != '0')
-                    {
-                        int count = int.Parse(input[i].ToString());
-                        char currentChar = input[i + 1];
-                        output.Append(new string(currentChar, count));
-                        i += 2;
-                    }
-                    else if (input[i] == '0')
-                    {
-                        int count = int.Parse(input[i + 1].ToString());
-                        output.Append(input.Substring(i + 2, count));
-                        i += 2 + count;
-                    }
-
-                    int progress = (int)((double)i / input.Length * 100);
-                    Invoke(new Action(() => progressBar.Value = progress));
+                    Invoke(new Action(() => progressBar.Value = 100));
                 }
-
-                File.WriteAllText(outputFile, output.ToString());
-                Invoke(new Action(() => progressBar.Value = 100));
             }
             catch (Exception ex)
             {
