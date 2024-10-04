@@ -4,8 +4,6 @@ public class Main {
         parser.parse("random_structure_9.xml");
 
         for (Book book : parser.getBooks()) {
-            /*System.out.println(book.toString());*/
-            for (Book book : parser.getBooks()) {
             System.out.println("---------------------------------------");
             if (book.getId() != null && !book.getId().isEmpty()) {
                 System.out.println("Book ID: " + book.getId());
@@ -41,5 +39,6 @@ public class Main {
                 System.out.println("Awards: " + book.getAwards());
             }
         }
+
     }
 }

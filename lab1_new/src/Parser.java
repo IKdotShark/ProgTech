@@ -16,10 +16,6 @@ class Address {
         return city;
     }
 
-    public void setCity(String city) {
-        this.city = city;
-    }
-
     public String getCountry() {
         return country;
     }
@@ -30,7 +26,7 @@ class Address {
 
     @Override
     public String toString() {
-        return "\n\t -- city: " + city + " \n\t -- country: " + country ;
+        return "\n\t -- city: " + getCity() + " \n\t -- country: " + getCountry() ;
     }
 }
 
@@ -61,7 +57,7 @@ class Publisher {
 
     @Override
     public String toString() {
-        return "\n\t - name: " + name + " \n\t - address: " + address;
+        return "\n\t - name: " + getName() + " \n\t - address: " + getAddress();
     }
 }
 
@@ -74,21 +70,6 @@ class Price {
         this.amount = amount;
     }
 
-    public String getCurrency() {
-        return currency;
-    }
-
-    public void setCurrency(String currency) {
-        this.currency = currency;
-    }
-
-    public double getAmount() {
-        return amount;
-    }
-
-    public void setAmount(double amount) {
-        this.amount = amount;
-    }
 
     @Override
     public String toString() {
@@ -126,10 +107,6 @@ class Book {
 
     public String getId() {
         return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
     }
 
     public String getTitle() {
@@ -276,7 +253,6 @@ class Book {
                     break;
             }
         }
-
         return sb.toString();
     }
 }
