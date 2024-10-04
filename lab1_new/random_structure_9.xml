@@ -1,0 +1,62 @@
+<?xml version='1.0' encoding='utf-8'?>
+<library>
+    <book id="1">
+        <title>Java Programming</title>
+        <author>Jane Austen</author>
+        <year>2005</year>
+        <genre>Science</genre>
+        <price currency="USD">85.54</price>
+        <publisher>
+            <name>Modern Publishing</name>
+            <address>
+                <city>London</city>
+                <country>UK</country>
+            </address>
+        </publisher>
+        <reviews>
+            <review>
+                <user>alice</user>
+                <rating>4</rating>
+                <comment>Great book!</comment>
+            </review>
+        </reviews>
+        <language>Japanese</language>
+        <translator>George Orwell</translator>
+    </book>
+    <book id="2">
+        <title>Pride and Prejudice</title>
+        <author>John Doe</author>
+        <year>2010</year>
+        <genre>History</genre>
+        <price currency="EUR">66.26</price>
+        <isbn>978-9-943053558</isbn>
+        <publisher>
+            <name>Classic Books</name>
+            <address>
+                <city>London</city>
+                <country>Germany</country>
+            </address>
+        </publisher>
+        <translator>Jane Austen</translator>
+    </book>
+    <book id="3">
+        <title>Effective Java</title>
+        <author>Isaac Asimov</author>
+        <year>1992</year>
+        <genre>Programming</genre>
+        <price currency="USD">11.41</price>
+        <isbn>978-0-924604160</isbn>
+        <format>Audiobook</format>
+        <reviews>
+            <review>
+                <user>bob</user>
+                <rating>1</rating>
+                <comment>Very informative.</comment>
+            </review>
+        </reviews>
+        <translator>George Orwell</translator>
+        <awards>
+            <award>Critics' Choice</award>
+        </awards>
+    </book>
+</library>
