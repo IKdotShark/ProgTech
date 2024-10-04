@@ -5,10 +5,26 @@ import java.util.ArrayList;
 import java.util.List;
 class Address {
     private String city;
-    String country;
+    private String country;
 
     public Address(String city, String country) {
         this.city = city;
+        this.country = country;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    public String getCountry() {
+        return country;
+    }
+
+    public void setCountry(String country) {
         this.country = country;
     }
 
@@ -19,11 +35,27 @@ class Address {
 }
 
 class Publisher {
-    String name;
-    Address address;
+    private String name;
+    private Address address;
 
     public Publisher(String name, Address address) {
         this.name = name;
+        this.address = address;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public Address getAddress() {
+        return address;
+    }
+
+    public void setAddress(Address address) {
         this.address = address;
     }
 
@@ -42,6 +74,22 @@ class Price {
         this.amount = amount;
     }
 
+    public String getCurrency() {
+        return currency;
+    }
+
+    public void setCurrency(String currency) {
+        this.currency = currency;
+    }
+
+    public double getAmount() {
+        return amount;
+    }
+
+    public void setAmount(double amount) {
+        this.amount = amount;
+    }
+
     @Override
     public String toString() {
         return amount + " " + currency;
@@ -50,16 +98,16 @@ class Price {
 
 class Book {
     private String id;
-    String title;
-    String author;
-    int year;
-    String genre;
-    Price price;
-    String format;
-    Publisher publisher;
-    String translator;
-    String isbn;
-    String awards;
+    private String title;
+    private String author;
+    private int year;
+    private String genre;
+    private Price price;
+    private String format;
+    private Publisher publisher;
+    private String translator;
+    private String isbn;
+    private String awards;
 
     public Book(String id, String title, String author, int year, String genre, Price price,
                 String format, Publisher publisher, String translator, String isbn, String awards) {
@@ -76,21 +124,94 @@ class Book {
         this.awards = awards;
     }
 
-    /*@Override
-    public String toString() {
-        return "------------------------------\n" +
-                "Book:\n\tid: " + id +
-                " \n\ttitle: " + title +
-                " \n\tauthor: " + author +
-                " \n\tyear: " + year +
-                " \n\tgenre: " + genre +
-                " \n\tprice: " + price +
-                " \n\tformat: " + format +
-                " \n\tpublisher: " + publisher +
-                " \n\ttranslator: " + translator +
-                " \n\tisbn: " + isbn +
-                " \n\tawards: " + awards;
-    }*/
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public String getAuthor() {
+        return author;
+    }
+
+    public void setAuthor(String author) {
+        this.author = author;
+    }
+
+    public int getYear() {
+        return year;
+    }
+
+    public void setYear(int year) {
+        this.year = year;
+    }
+
+    public String getGenre() {
+        return genre;
+    }
+
+    public void setGenre(String genre) {
+        this.genre = genre;
+    }
+
+    public Price getPrice() {
+        return price;
+    }
+
+    public void setPrice(Price price) {
+        this.price = price;
+    }
+
+    public String getFormat() {
+        return format;
+    }
+
+    public void setFormat(String format) {
+        this.format = format;
+    }
+
+    public Publisher getPublisher() {
+        return publisher;
+    }
+
+    public void setPublisher(Publisher publisher) {
+        this.publisher = publisher;
+    }
+
+    public String getTranslator() {
+        return translator;
+    }
+
+    public void setTranslator(String translator) {
+        this.translator = translator;
+    }
+
+    public String getIsbn() {
+        return isbn;
+    }
+
+    public void setIsbn(String isbn) {
+        this.isbn = isbn;
+    }
+
+    public String getAwards() {
+        return awards;
+    }
+
+    public void setAwards(String awards) {
+        this.awards = awards;
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -160,6 +281,7 @@ class Book {
     }
 }
 
+
 class Parser {
     private List<Book> books = new ArrayList<>();
 
@@ -182,19 +304,19 @@ class Parser {
                         break;
                     case "title":
                         String title = line.replaceAll("<title>|</title>", "").trim();
-                        currentBook.title = title;
+                        currentBook.setTitle(title);
                         break;
                     case "author":
                         String author = line.replaceAll("<author>|</author>", "").trim();
-                        currentBook.author = author;
+                        currentBook.setAuthor(author);
                         break;
                     case "year":
                         int year = Integer.parseInt(line.replaceAll("<year>|</year>", "").trim());
-                        currentBook.year = year;
+                        currentBook.setYear(year);
                         break;
                     case "genre":
                         String genre = line.replaceAll("<genre>|</genre>", "").trim();
-                        currentBook.genre = genre;
+                        currentBook.setGenre(genre);
                         break;
                     case "price":
                         String currency = line.replaceAll(".*currency=\"([^\"]+)\".*", "$1").trim();
@@ -203,15 +325,15 @@ class Parser {
                         break;
                     case "format":
                         String format = line.replaceAll("<format>|</format>", "").trim();
-                        currentBook.format = format;
+                        currentBook.setFormat(format);
                         break;
                     case "isbn":
                         String isbn = line.replaceAll("<isbn>|</isbn>", "").trim();
-                        currentBook.isbn = isbn;
+                        currentBook.setIsbn(isbn);
                         break;
                     case "translator":
                         String translator = line.replaceAll("<translator>|</translator>", "").trim();
-                        currentBook.translator = translator;
+                        currentBook.setTranslator(translator);
                         break;
                     case "publisher":
                         currentPublisher = new Publisher("", null);
@@ -219,7 +341,7 @@ class Parser {
                     case "publisher_name":
                         if (currentPublisher != null) {
                             String name = line.replaceAll("<name>|</name>", "").trim();
-                            currentPublisher.name = name;
+                            currentPublisher.setName(name);
                         }
                         break;
                     case "city":
@@ -228,15 +350,15 @@ class Parser {
                         break;
                     case "country":
                         String country = line.replaceAll("<country>|</country>", "").trim();
-                        currentAddress.country = country;
+                        currentAddress.setCountry(country);
                         break;
                     case "end_address":
                         if (currentPublisher != null) {
-                            currentPublisher.address = currentAddress;
+                            currentPublisher.setAddress(currentAddress);
                         }
                         break;
                     case "end_publisher":
-                        currentBook.publisher = currentPublisher;
+                        currentBook.setPublisher(currentPublisher);
                         break;
                     case "awards":
                         awards = "";
@@ -245,11 +367,11 @@ class Parser {
                         awards += line.replaceAll("<award>|</award>", "").trim() + ", ";
                         break;
                     case "end_awards":
-                        currentBook.awards = awards != null ? awards.replaceAll(", $", "") : null;
+                        currentBook.setAwards(awards != null ? awards.replaceAll(", $", "") : null);
                         break;
                     case "end_book":
                         if (currentBook != null) {
-                            currentBook.price = currentPrice;
+                            currentBook.setPrice(currentPrice);
                             books.add(currentBook);
                         }
                         break;
