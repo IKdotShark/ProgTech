@@ -1,0 +1,162 @@
+@startuml FixedUML_iter3
+
+' Определение классов
+class MenuManager {
+    - items: List<MenuItem>
+    + addItem(item: MenuItem): void
+    + removeItem(item: MenuItem): void
+    + getMenu(): List<MenuItem>
+    + getInstance(): MenuManager
+}
+
+class MenuItem {
+    - name: String
+    - type: String
+    - price: Float
+    + getCost(): Float
+    + addOption(option: String): void
+}
+
+abstract class MenuItemDecorator  {
+    + getCost(): Float
+}
+
+class SauceDecorator  {
+    + getCost(): Float
+}
+
+class GarnishDecorator  {
+    + getCost(): Float
+}
+
+class Order {
+    - items: List<MenuItem>
+    - creationTime: Date
+    - status: String
+    - client: Client
+    - staff: Employee
+    + addItem(item: MenuItem): void
+    + setStatus(status: String): void
+    + notifyClient(): void
+}
+
+class Client {
+    - name: String
+    - contactInfo: String
+    + createOrder(items: List<MenuItem>): Order
+    + receiveNotification(message: String): void
+}
+
+class Reservation {
+    - time: Date
+    - peopleCount: int
+    - reservationType: String
+    + createReservation(): Reservation
+}
+
+abstract class Employee {
+    - name: String
+    - role: Role
+    - experience: int
+    + performTask(task: String): void
+}
+
+class Waiter  {
+    + serveOrder(order: Order): void
+}
+
+class Chef  {
+    + prepareItem(item: MenuItem): void
+}
+
+class Manager {
+    + manageMenu(menuManager: MenuManager): void
+}
+
+class Inventory {
+    - itemName: String
+    - quantity: int
+    + checkStock(): int
+    + replenishStock(): void
+}
+
+class Supplier {
+    - name: String
+    + supplyItems(item: String, quantity: int): void
+}
+
+class Report {
+    - startDate: Date
+    - endDate: Date
+    - reportType: String
+    - orders: List<Order>
+    - paymentDetails: List<PaymentMethod>
+    - servedBy: List<Employee>
+    + generateReport(): void
+}
+
+class PaymentSystem {
+    + processPayment(method: PaymentMethod, amount: Float): void
+}
+
+abstract class PaymentMethod {
+    + pay(amount: Float): void
+    + refund(amount: Float): void
+}
+
+class Cash  {
+    + pay(amount: Float): void
+}
+
+class Card  {
+    + pay(amount: Float): void
+}
+
+class OnlinePayment  {
+    + pay(amount: Float): void
+}
+
+class LoyaltyProgram {
+    - client: Client
+    - pointsBalance: int
+    + addPoints(points: int): void
+    + redeemPoints(points: int): void
+}
+
+class LoyaltyCard {
+    - points: int
+    + addPoints(points: int): void
+    + usePoints(points: int): void
+}
+
+class InventoryStrategy {
+    + restock(): void
+}
+
+MenuManager "1" -- "0..*" MenuItem : manages
+MenuItem <|-- MenuItemDecorator
+MenuItemDecorator <|-- SauceDecorator
+MenuItemDecorator <|-- GarnishDecorator
+Order "1" -- "0..*" MenuItem : contains
+Client "1" -- "0..*" Order : places
+Order "1" -- "1" Client : created by
+Order "1" -- "1" Employee : handled by
+Reservation "1" -- "1" Client : booked by
+Reservation "1" -- "1" Order : for
+Employee <|-- Waiter
+Employee <|-- Chef
+Employee <|-- Manager
+Inventory "1" -- "1" Supplier : replenished by
+Inventory *-- InventoryStrategy : uses
+Report "1" -- "0..*" Order : logs
+Report "1" -- "0..*" Employee : logs staff
+Report "1" -- "0..*" PaymentMethod : logs payment
+PaymentSystem "1" -- "1" PaymentMethod : processes
+PaymentMethod <|-- Cash
+PaymentMethod <|-- Card
+PaymentMethod <|-- OnlinePayment
+LoyaltyProgram "1" -- "1" Client : belongs to
+LoyaltyProgram "1" -- "1" LoyaltyCard : uses
+Employee "1" -- "1" Inventory : checks
+
+@enduml
