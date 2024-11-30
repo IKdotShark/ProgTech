@@ -7,6 +7,11 @@
 Сайт с доккументацией синтакисиса диаграмм последовательностей по [plantUML](https://plantuml.com/sequence-diagram).
 
 #  [Техническое задание](https://github.com/IKdotShark/ProgTech/wiki/Lab2_new_UML#%D1%81%D1%83%D1%89%D0%BD%D0%BE%D1%81%D1%82%D0%B8-%D0%B1%D0%BE%D0%BB%D0%B5%D0%B5-%D0%BF%D0%BE%D0%B4%D1%80%D0%BE%D0%B1%D0%BD%D0%BE)
+# Диаграмма классов
+<p align="center">
+ <img src="UML_extended.png" alt="classes-diagram"/>
+</p>
+
 # **Сущности - паттерны**
 - **MenuManager** - [**Singleton (ОДИНОЧКА)**](https://github.com/IKdotShark/ProgTech/wiki/Lab2_new_UML#singleton-%D0%BE%D0%B4%D0%B8%D0%BD%D0%BE%D1%87%D0%BA%D0%B0)
 - **Reservation** - [**Factory method (фабричный метод)**](https://github.com/IKdotShark/ProgTech/wiki/Lab2_new_UML#factory-method-%D1%84%D0%B0%D0%B1%D1%80%D0%B8%D1%87%D0%BD%D1%8B%D0%B9-%D0%BC%D0%B5%D1%82%D0%BE%D0%B4)
